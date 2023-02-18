@@ -108,5 +108,7 @@ body{
 
 
 @media(max-width: 500px){
-
+	#screen{
+		width: 100vw;
+	}
 }
