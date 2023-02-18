@@ -65,11 +65,17 @@ function print(text, args=null){
 		input.scrollTo(0, input.scrollHeight);
 	}
 
+	const regex = /(<)(.+)(\/>)/;
+	let result = text.match(regex);
+	if (result){
+		text = text.replaceAll(result[0], "<persona>" + result[2] + "</persona>")
+	}
+	
+	const separator = /(<persona>.+<\/persona>)|(\n)/;
 	_print(
-		text.split("\n")
-			.map(x=>x.split(""))
-			.map(x=>[...x, "\n"])
-			.flat(1)
+		text.split(separator).filter(x=>x)
+				.map(x => x.match(separator) ? x : x.split(""))
+				.flat(1)
 	)
 	
 	skiper = function(exit=false){

@@ -55,6 +55,9 @@ html, body{
 	box-sizing: border-box;
 	user-select: none;
 }
+#titles > #titles-text > persona{
+	color: yellow;
+}
 
 #choices{
 	display: flex;
