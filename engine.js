@@ -108,3 +108,18 @@ function addChoices(array){
 		setTimeout(_=>{div.classList.remove("hide")}, 0)
 	})
 }
+
+
+function background(image){
+	document.querySelector("#canvas").style.backgroundImage = `url('${image}')`
+}
+function persona(image, id){
+	let div = document.querySelector(`#canvas .persona[persona-id='${id}']`)
+	if (!div){
+		div = document.createElement("div")
+		div.className = "persona"
+		div.setAttribute("persona-id", id)
+		document.querySelector("#canvas").appendChild(div)
+	}
+	div.style.backgroundImage = `url('${image}')`
+}
