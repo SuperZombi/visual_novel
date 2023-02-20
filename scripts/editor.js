@@ -15,6 +15,7 @@ function main(){
 		document.documentElement.classList.add("dark")
 	}
 
+	document.querySelector("#new_file").onclick = newfile
 	document.querySelector("#open").onclick = openfile
 	document.querySelector("#saveAs").onclick = saveAs
 	document.querySelector("#delete").onclick = delete_highlighted
@@ -48,6 +49,14 @@ function execute(){
 	let content = parseTree(document.querySelector("#editor"))
 	window.localStorage.setItem("execute_from_file", content)
 	window.location = "index.html?from_file=true"
+}
+function newfile(){
+	if (document.querySelector("#editor").innerHTML != ""){
+		if (confirm("Are you sure?")){
+			document.querySelector("#editor").innerHTML = ""
+			window.localStorage.removeItem("execute_from_file")
+		}
+	}
 }
 
 document.addEventListener("chapter-loaded", e=>{
@@ -269,7 +278,7 @@ function redo_manager(){
 }
 
 
-function addNode(name){
+function addNode(name, prepend=false){
 	function makeChoice(){
 		let subdiv = document.createElement("div")
 		subdiv.className = "choice"
@@ -325,7 +334,12 @@ function addNode(name){
 
 	let selected = document.querySelector("#editor .selected")
 	if (selected){
-		selected.after(div)
+		if (prepend){
+			if (selected.classList.contains("choice-title")){return}
+			selected.before(div)
+		} else{
+			selected.after(div)
+		}
 	} else{
 		document.querySelector("#editor").appendChild(div)
 	}
