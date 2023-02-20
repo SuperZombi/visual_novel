@@ -7,6 +7,9 @@ html, body{
 #menu{
 	height: 30px;
 	padding: 5px;
+	position: fixed;
+	background: rgb(255, 255, 255, 0.85);
+	width: 100%;
 }
 .but{
 	border: 1px solid;
@@ -42,6 +45,7 @@ html, body{
 	text-align: center;
 	white-space: nowrap;
 	overflow: auto;
+	padding-top: 40px;
 }
 
 #editor input{

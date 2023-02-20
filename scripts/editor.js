@@ -23,6 +23,9 @@ function main(){
 		}
 	})
 }
+document.addEventListener("chapter-loaded", e=>{
+	e.detail.start()
+})
 
 function openfile(){
 	var input = document.createElement('input');
