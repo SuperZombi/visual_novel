@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Editor</title>
+	<meta name='viewport' content='width=device-width'>
+	<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+
+	<link rel="stylesheet" href="styles/editor.css">
+	<script src="scripts/editor.js"></script>
+</head>
+<body>
+	<div id="menu">
+		<div class="dropdown but">
+			<span>File</span>
+			<div class="dropdown-content">
+				<span class="but" id="open">Open</span>
+				<span class="but" id="saveAs">Save as</span>
+			</div>
+		</div>
+		<div class="dropdown but">
+			<span>Edit</span>
+			<div class="dropdown-content">
+				<span class="but" id="undo">◀️Undo</span>
+				<span class="but" id="redo">▶️Redo</span>
+				<hr>
+				<span class="but" id="delete">Delete</span>
+			</div>
+		</div>
+		<div class="dropdown but">
+			<span>Add</span>
+			<div class="dropdown-content">
+				<span class="but" onclick="addNode('print')">print</span>
+				<span class="but" onclick="addNode('background')">background</span>
+				<span class="but" onclick="addNode('persona')">persona</span>
+				<span class="but" onclick="addNode('choice')">choice</span>
+				<span class="but" onclick="addNode('choice_area')">choice area</span>
+			</div>
+		</div>
+	</div>
+
+	<div id="editor"></div>
+</body>
+</html>

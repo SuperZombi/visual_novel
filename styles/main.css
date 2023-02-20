@@ -1,0 +1,196 @@
+html, body{
+	padding: 0;
+	margin: 0;
+	font-family: sans-serif;
+}
+body{
+	background: black;
+}
+
+#screen{
+	height: 100vh;
+	width: 90vw;
+	position: relative;
+	overflow: hidden;
+	margin: auto;
+}
+
+.hide{
+	opacity: 0;
+	visibility: hidden;
+}
+
+#menu{
+	height: 100%;
+	background: #282923;
+	color: white;
+	transition: 0.5s;
+}
+#chapters .chapter{
+	background: #2b2b2b;
+	height: 150px;
+	width: 150px;
+	border-radius: 12px;
+	border: 1px solid grey;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	text-align: center;
+	padding: 5px;
+	margin: 10px;
+	cursor: pointer;
+	user-select: none;
+	transition: 0.2s ease-in-out;
+}
+#chapters .chapter:hover{
+	animation: chapter-anim 1s infinite;
+}
+@keyframes chapter-anim{
+	0%{
+		filter: drop-shadow(0 2px 4px grey);
+	}
+	12.5%{
+		filter: drop-shadow(2px 2px 4px grey);
+	}
+	25%{
+		filter: drop-shadow(2px 0 4px grey);
+	}
+	37.5%{
+		filter: drop-shadow(2px -2px 4px grey);
+	}
+	50%{
+		filter: drop-shadow(0 -2px 4px grey);
+	}
+	62.5%{
+		filter: drop-shadow(-2px -2px 4px grey);
+	}
+	75%{
+		filter: drop-shadow(-2px 0 4px grey);
+	}
+	87.5%{
+		filter: drop-shadow(-2px 2px 4px grey);
+	}
+	100%{
+		filter: drop-shadow(0 2px 4px grey);
+	}
+}
+#chapters .chapter .preview{
+	height: 100%;
+	overflow: hidden;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	box-shadow: inset 0px 0px 25px black;
+	border-radius: 5px;
+}
+#chapters .chapter .progress{
+	width: 100%;
+}
+#chapters .chapter .title{
+	margin: 5px;
+}
+
+#game{
+	height: 100%;
+	width: 100%;
+	transition: 0.5s;
+	position: absolute;
+	top: 0;
+}
+#canvas{
+	height: 100%;
+	background: grey;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+#canvas .persona{
+	width: 60%;
+	height: calc(100% - 115px);
+	background-repeat: no-repeat;
+	background-position: bottom;
+	background-size: contain;
+}
+
+#titles-area{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: calc(100% - 20px);
+	margin: 10px;
+}
+#titles{
+	font-size: 16pt;
+	color: white;
+	background: rgb(96, 96, 96, 0.85);
+	height: 105px;
+	border-radius: 10px;
+	overflow: hidden;
+	cursor: pointer;
+}
+#titles:before{
+	content: '';
+	display: inline-block;
+	width: 8px;
+	height: 100%;
+	background: orange;
+	float:left;
+	margin-right: 8px;
+	opacity: 0.8;
+	transition: 0.15s;
+}
+#titles:hover:before{
+	opacity: 1;
+}
+#titles:active:before{
+	background: gold;
+	filter: drop-shadow(0 0 4px gold);
+}
+#titles > #titles-text{
+	padding: 5px;
+	overflow: auto;
+	height: 100%;
+	box-sizing: border-box;
+	user-select: none;
+}
+#titles > #titles-text > persona{
+	color: yellow;
+}
+
+#choices{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+.choice{
+	display: inline-block;
+	padding: 8px 16px;
+	margin-bottom: 8px;
+	border-radius: 16px;
+	min-width: 18%;
+	cursor: pointer;
+	color: white;
+	background: rgb(96, 96, 96, 0.85);
+	transition: all 0.1s, transform 0.5s;
+	user-select: none;
+}
+.choice:hover{
+	background: rgb(96, 96, 96, 1);
+	filter: drop-shadow(0 0 2px #202020);
+}
+.choice:active{
+	filter: drop-shadow(0 0 3px black);
+}
+.choice.hide{
+	transform: translateX(100%);
+	opacity: 0;
+}
+
+
+
+@media(max-width: 500px){
+	#screen{
+		width: 100vw;
+	}
+}
