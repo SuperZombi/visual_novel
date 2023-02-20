@@ -11,13 +11,26 @@
 </head>
 <body>
 	<div id="screen">
-		<div id="canvas">
-			
+		<div id="menu">
+			<h1 style="text-align: center; margin: 0; padding: 20px;">Visual Novel</h1>
+			<div id="chapters">
+				<div class="chapter" url="chapters/chapter1.js">
+					<div style="background-image: url('images/chapter1/_preview.jpg')" class="preview"></div>
+					<div class="title">Глава 1</div>
+					<progress min="0" max="100" value="0" class="progress"></progress>
+				</div>
+			</div>
 		</div>
-		<div id="titles-area">
-			<div id="choices"></div>
-			<div id="titles">
-				<div id="titles-text"></div>
+
+		<div id="game" class="hide">
+			<div id="canvas">
+				
+			</div>
+			<div id="titles-area">
+				<div id="choices"></div>
+				<div id="titles">
+					<div id="titles-text"></div>
+				</div>
 			</div>
 		</div>
 	</div>

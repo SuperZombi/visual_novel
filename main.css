@@ -15,6 +15,88 @@ body{
 	margin: auto;
 }
 
+.hide{
+	opacity: 0;
+	visibility: hidden;
+}
+
+#menu{
+	height: 100%;
+	background: #282923;
+	color: white;
+	transition: 0.5s;
+}
+#chapters .chapter{
+	background: #2b2b2b;
+	height: 150px;
+	width: 150px;
+	border-radius: 12px;
+	border: 1px solid grey;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	text-align: center;
+	padding: 5px;
+	margin: 10px;
+	cursor: pointer;
+	user-select: none;
+	transition: 0.2s ease-in-out;
+}
+#chapters .chapter:hover{
+	animation: chapter-anim 1s infinite;
+}
+@keyframes chapter-anim{
+	0%{
+		filter: drop-shadow(0 2px 4px grey);
+	}
+	12.5%{
+		filter: drop-shadow(2px 2px 4px grey);
+	}
+	25%{
+		filter: drop-shadow(2px 0 4px grey);
+	}
+	37.5%{
+		filter: drop-shadow(2px -2px 4px grey);
+	}
+	50%{
+		filter: drop-shadow(0 -2px 4px grey);
+	}
+	62.5%{
+		filter: drop-shadow(-2px -2px 4px grey);
+	}
+	75%{
+		filter: drop-shadow(-2px 0 4px grey);
+	}
+	87.5%{
+		filter: drop-shadow(-2px 2px 4px grey);
+	}
+	100%{
+		filter: drop-shadow(0 2px 4px grey);
+	}
+}
+#chapters .chapter .preview{
+	height: 100%;
+	overflow: hidden;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	box-shadow: inset 0px 0px 25px black;
+	border-radius: 5px;
+}
+#chapters .chapter .progress{
+	width: 100%;
+}
+#chapters .chapter .title{
+	margin: 5px;
+}
+
+#game{
+	height: 100%;
+	width: 100%;
+	transition: 0.5s;
+	position: absolute;
+	top: 0;
+}
 #canvas{
 	height: 100%;
 	background: grey;

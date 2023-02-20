@@ -1,3 +1,21 @@
+function initChapters(){
+	document.querySelectorAll("#chapters .chapter").forEach(chap=>{
+		chap.onclick = _=>{
+			document.querySelector("#menu").classList.add("hide")
+			let x = document.createElement("script")
+			x.src = chap.getAttribute("url")
+			document.head.appendChild(x)
+		}
+	})
+}
+
+document.addEventListener("chapter-loaded", e=>{
+	setTimeout(_=>{
+		document.querySelector("#game").classList.remove("hide")
+		e.detail.start()
+	}, 1000)
+})
+
 function clear(){
 	document.querySelector("#titles-text").innerHTML = ""
 }
