@@ -44,7 +44,7 @@ document.addEventListener("chapter-loaded", e=>{
 function openfile(){
 	var input = document.createElement('input');
 	input.type = 'file';
-	input.accept = ".vnp.js"
+	input.accept = ".vnp.js,.js"
 	input.onchange = e=>{ 
 		var file = e.target.files[0];
 		var reader = new FileReader();
