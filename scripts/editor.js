@@ -20,6 +20,7 @@ function main(){
 	document.querySelector("#delete").onclick = delete_highlighted
 	document.querySelector("#undo").onclick = undo_manager
 	document.querySelector("#redo").onclick = redo_manager
+	document.querySelector("#execute").onclick = execute
 
 	document.addEventListener("keydown", e=>{
 		if (e.ctrlKey && e.keyCode === 83) {
@@ -36,7 +37,19 @@ function main(){
 			delete_highlighted()
 		}
 	})
+
+	let old_content = window.localStorage.getItem("execute_from_file")
+	if (old_content){
+		displayContents(old_content)
+	}
 }
+
+function execute(){
+	let content = parseTree(document.querySelector("#editor"))
+	window.localStorage.setItem("execute_from_file", content)
+	window.location = "index.html?from_file=true"
+}
+
 document.addEventListener("chapter-loaded", e=>{
 	e.detail.start()
 })
@@ -55,18 +68,17 @@ function openfile(){
 		reader.readAsText(file);
 	}
 	input.click();
-
-	function displayContents(text){
-		var F = new Function (text);
-		try{
-			current = document.querySelector("#editor")
-			current.innerHTML = ""
-			redo_stack = [];
-			undo_stack = [];
-			F()
-		} catch (e){
-			alert(e)
-		}
+}
+function displayContents(text){
+	var F = new Function (text);
+	try{
+		current = document.querySelector("#editor")
+		current.innerHTML = ""
+		redo_stack = [];
+		undo_stack = [];
+		F()
+	} catch (e){
+		alert(e)
 	}
 }
 
