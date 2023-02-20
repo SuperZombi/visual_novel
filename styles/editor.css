@@ -12,6 +12,14 @@ html, body{
 	width: 100%;
 	top: 0;
 }
+
+.dark body{
+	background: grey;
+}
+.dark #menu{
+	background: rgb(200, 200, 200, 0.85);
+}
+
 .but{
 	border: 1px solid;
 	padding: 5px 15px;
@@ -47,7 +55,7 @@ html, body{
 	text-align: center;
 	white-space: nowrap;
 	overflow: auto;
-	padding-top: 40px;
+	padding-top: 45px;
 }
 
 #editor input{

@@ -1,6 +1,20 @@
 window.onload = _=> main()
 
+function changeTheme(){
+	if (document.documentElement.classList.contains("dark")){
+		document.documentElement.classList.remove("dark")
+		window.location.hash = "#"
+	} else{
+		document.documentElement.classList.add("dark")
+		window.location.hash = "#dark"
+	}
+}
+
 function main(){
+	if (window.location.hash.substr(1) == "dark"){
+		document.documentElement.classList.add("dark")
+	}
+
 	document.querySelector("#open").onclick = openfile
 	document.querySelector("#saveAs").onclick = saveAs
 	document.querySelector("#delete").onclick = delete_highlighted
