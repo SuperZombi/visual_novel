@@ -22,6 +22,7 @@ function main(){
 	document.querySelector("#undo").onclick = undo_manager
 	document.querySelector("#redo").onclick = redo_manager
 	document.querySelector("#execute").onclick = execute
+	document.querySelector("#editor").onclick = unselectAll
 
 	document.addEventListener("keydown", e=>{
 		if (e.ctrlKey && e.keyCode === 83) {
@@ -224,6 +225,11 @@ function parseTree(tree, main=true){
 }
 
 
+function unselectAll(event){
+	document.querySelectorAll("#editor .selected").forEach(e=>{
+		e.classList.remove("selected")
+	})
+}
 function highlight_to_edit(element){
 	document.querySelectorAll("#editor .selected").forEach(e=>{
 		e.classList.remove("selected")
