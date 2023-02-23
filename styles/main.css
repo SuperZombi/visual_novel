@@ -212,6 +212,7 @@ body{
 	border-radius: 16px;
 	box-shadow: 0 0 4px hotpink;
 	transition: 0.5s;
+	min-width: 15%;
 }
 #love-level .title{
 	font-size: 16pt;
