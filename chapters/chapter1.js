@@ -42,7 +42,9 @@ function chapter1(){
 										change_love_level('boy', 1);
 										background('images/chapter1/background1.png');
 										persona('images/chapter1/persona-smile.png', "boy")
-										print("Парень посмотрел на вас и улыбнулся.")
+										print("Парень посмотрел на вас и улыбнулся.", {
+											next: _=> {return_to()}
+										})
 									}
 								},
 								{
