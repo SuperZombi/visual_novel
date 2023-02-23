@@ -115,13 +115,26 @@ function clearChoices(){
 function addChoices(array){
 	clearChoices()
 	let parrent = document.querySelector("#choices");
-	Object.keys(array).forEach(e=>{
+	array.forEach(e=>{
 		let div = document.createElement("div")
 		div.classList.add("choice", "hide")
-		div.innerHTML = e
-		div.onclick = _=>{
-			clearChoices()
-			array[e]()
+		div.innerHTML = e.name
+		
+		let canClick = true;
+		if (e.condition){
+			const regex = /{([^}]+)}/;
+			let match = regex.exec(e.condition);
+			let F = new Function("return " + match[1]);
+			if (!F()){
+				div.classList.add("disabled")
+				canClick = false;
+			}
+		}
+		if (canClick){
+			div.onclick = _=>{
+				clearChoices()
+				e.do()
+			}		
 		}
 		parrent.appendChild(div)
 		setTimeout(_=>{div.classList.remove("hide")}, 0)
@@ -141,4 +154,15 @@ function persona(image, id){
 		document.querySelector("#canvas").appendChild(div)
 	}
 	div.style.backgroundImage = `url('${image}')`
+}
+
+var love_levels = {}
+function get_love_level(id){
+	return love_levels[id]
+}
+function change_love_level(id, value){
+	love_levels[id] += value
+}
+function init_love_level(id, value){
+	love_levels[id] = value
 }

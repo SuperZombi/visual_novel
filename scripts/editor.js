@@ -120,23 +120,34 @@ function print(text, args){
 			let main_div = document.createElement("div")
 			main_div.className = "choices"
 			current.appendChild(main_div)
-			Object.keys(args.choices).forEach(choice=>{
+			args.choices.forEach(choice=>{
 				current = main_div
 				let div = document.createElement("div")
 				div.className = "choice"
 				let subdiv = document.createElement("div")
 				subdiv.className = "choice-title"
-				let input = document.createElement("input")
-				input.value = choice
 				subdiv.setAttribute("onclick", "highlight_to_edit(this)")
+				let input = document.createElement("input")
+				input.name = "name"
+				input.placeholder = "name"
+				input.value = choice.name
+				let input2 = document.createElement("input")
+				input2.name = "condition"
+				input2.placeholder = "condition"
+				if (choice.condition){
+					const regex = /{([^}]+)}/;
+					let match = regex.exec(choice.condition);
+					input2.value = match[1].trim()
+				}
 				subdiv.appendChild(input)
+				subdiv.appendChild(input2)
 				div.appendChild(subdiv)
 				let tail = document.createElement("div")
 				tail.className = "choice-tail"
 				div.appendChild(tail)
 				current.appendChild(div)
 				current = tail
-				args.choices[choice]()
+				choice.do()
 			})
 			current = main_div.parentNode
 		}
@@ -150,6 +161,27 @@ function print(text, args){
 }
 
 function return_to(){}
+function get_love_level(id){}
+function love_lvl_build(name, id, value){
+	let div = document.createElement("div")
+	div.setAttribute("onclick", "highlight_to_edit(this)")
+	div.setAttribute("before", name)
+	div.className = "simple-block love"
+	let input = document.createElement("input")
+	input.name = "id"
+	input.placeholder = "ID"
+	input.value = id
+	div.appendChild(input)
+	let input2 = document.createElement("input")
+	input2.style.width = "50px"
+	input2.name = "value"
+	input2.placeholder = "value"
+	input2.value = value
+	div.appendChild(input2)
+	current.appendChild(div)
+}
+function change_love_level(id, value){love_lvl_build("change_love_level", id, value)}
+function init_love_level(id, value){love_lvl_build("init_love_level", id, value)}
 function persona(name, id){
 	let div = document.createElement("div")
 	div.setAttribute("onclick", "highlight_to_edit(this)")
@@ -172,7 +204,7 @@ function persona(name, id){
 
 function saveAs(){
 	const link = document.createElement("a");
-	let content = parseTree(document.querySelector("#editor"));
+	let content = js_beautify(parseTree(document.querySelector("#editor")));
 	const file = new Blob([content], { type: 'text/plain' });
 	link.href = URL.createObjectURL(file);
 	link.download = "project.vnp.js";
@@ -181,36 +213,47 @@ function saveAs(){
 }
 function parseTree(tree, main=true){
 	let TEXT = "";
-	let close_after = " ";
+	let close_after = "";
 	let arr = tree.querySelectorAll(":scope > *")
 	arr.forEach(div=>{
 		if (div.className == "choices"){
 			let choices = div.querySelectorAll(":scope > .choice")
 			choices.forEach(choice=>{
-				let name = choice.querySelector(":scope > .choice-title > input").value
+				let name = choice.querySelector(":scope > .choice-title > input[name=name]").value
+				let condition = choice.querySelector(":scope > .choice-title > input[name=condition]").value
 				let tail = choice.querySelector(":scope > .choice-tail")
-				let subtext = `"${name}": _=>{ ${parseTree(tail, false)} }, `
+				let subtext = `\n {name: "${name}",`
+				subtext += `${(condition) ? (` condition: _=> { ${condition} },`) : ""}`
+				subtext += `\n do: _=> { ${parseTree(tail, false)} }},`
 				TEXT += subtext;
 			})
-			TEXT += `},\ncontinue: _=> { `
+			TEXT += `],\n continue: _=> { `
 		}
 		else{
 			if (div.getAttribute("before") == "print"){
 				if (div.nextElementSibling && div.nextElementSibling.classList.contains("choices")){
-					TEXT += `print("${div.querySelector("input").value}", {\n	choices:  { `
+					TEXT += `print("${div.querySelector("input").value}", {\n choices: [ `
 					close_after += '}})'
 				}
 				else if (div.nextElementSibling){
-					TEXT += `print("${div.querySelector("input").value}", {\n	next: _=> { `
+					TEXT += `print("${div.querySelector("input").value}", {\n next: _=> { `
 					close_after += '}})'
 				}
 				else{
-					TEXT += `print("${div.querySelector("input").value}");`
+					if (div.parentElement.classList.contains("choice-tail")){
+						TEXT += `print("${div.querySelector("input").value}", {\n next: _=> { `
+						close_after += '}})'
+					} else{
+						TEXT += `print("${div.querySelector("input").value}"); `
+					}
 				}
 
 			}
 			else if (div.getAttribute("before") == "persona"){
 				TEXT += `${div.getAttribute("before")}("${div.querySelector("input[name=name]").value}", "${div.querySelector("input[name=id]").value}"); `
+			}
+			else if (div.getAttribute("before") == "init_love_level" || div.getAttribute("before") == "change_love_level"){
+				TEXT += `${div.getAttribute("before")}("${div.querySelector("input[name=id]").value}", ${div.querySelector("input[name=value]").value}); `
 			}
 			else{
 				TEXT += `${div.getAttribute("before")}("${div.querySelector("input").value}"); `
@@ -231,11 +274,15 @@ function unselectAll(event){
 	})
 }
 function highlight_to_edit(element){
+	document.querySelector("#love-lvl").style.display = "none"
 	document.querySelectorAll("#editor .selected").forEach(e=>{
 		e.classList.remove("selected")
 	})
 	setTimeout(_=>{
 		element.classList.add("selected")
+		if (element.classList.contains("choice-title")){
+			document.querySelector("#love-lvl").style.display = "block"
+		}
 	}, 0)
 }
 function delete_highlighted(){
@@ -300,6 +347,15 @@ function addNode(name, prepend=false){
 		return subdiv
 	}
 
+	let selected = document.querySelector("#editor .selected")
+	if (selected && name == "get_love_level"){
+		let input = selected.querySelector("input[name=condition]")
+		if (input){
+			input.value += `get_love_level( _id_ )`
+		}
+		return
+	}
+
 
 	let div;
 	if (name == "choice"){
@@ -314,7 +370,8 @@ function addNode(name, prepend=false){
 		div = document.createElement("div")
 		div.className = "choices"
 		div.appendChild(makeChoice())
-	} else{
+	}
+	else{
 		div = document.createElement("div")
 		div.setAttribute("before", name)
 		div.className = "simple-block"
@@ -335,10 +392,19 @@ function addNode(name, prepend=false){
 			input2.name = "id"
 			input2.placeholder = "ID"
 			div.appendChild(input2)
-		}	
+		}
+		else if (name == "init_love_level" || name == "change_love_level"){
+			div.classList.add("love")
+			input.name = "id"
+			input.placeholder = "ID"
+			let input2 = document.createElement("input")
+			input2.style.width = "50px"
+			input2.name = "value"
+			input2.placeholder = "value"
+			div.appendChild(input2)
+		}
 	}
 
-	let selected = document.querySelector("#editor .selected")
 	if (selected){
 		if (prepend){
 			if (selected.classList.contains("choice-title")){return}

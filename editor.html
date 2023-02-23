@@ -6,6 +6,7 @@
 	<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
 
 	<link rel="stylesheet" href="styles/editor.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify.min.js"></script>
 	<script src="scripts/editor.js"></script>
 </head>
 <body>
@@ -45,6 +46,15 @@
 				<span class="but" onclick="addNode('print', true)">print</span>
 				<span class="but" onclick="addNode('background', true)">background</span>
 				<span class="but" onclick="addNode('persona', true)">persona</span>
+				<span class="but" onclick="addNode('change_love_level', true)">change_love_level</span>
+			</div>
+		</div>
+		<div class="dropdown but">
+			<span>Love level</span>
+			<div class="dropdown-content">
+				<span class="but" id="love-lvl" style="display: none" onclick="addNode('get_love_level')">get</span>
+				<span class="but" onclick="addNode('init_love_level')">init</span>
+				<span class="but" onclick="addNode('change_love_level')">change</span>
 			</div>
 		</div>
 		<span class="but" style="display: inline-block;" onclick="changeTheme()">Theme</span>

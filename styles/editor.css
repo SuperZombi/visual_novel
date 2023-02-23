@@ -84,6 +84,12 @@ html, body{
 #editor .simple-block.light{
 	background: #d6ebf2;
 }
+#editor .simple-block.love{
+	background: #f1c0ff;
+}
+#editor .simple-block.love input{
+	max-width: 100px;
+}
 #editor .simple-block.persona{
 	background: pink;
 }
