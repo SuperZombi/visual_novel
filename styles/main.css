@@ -176,7 +176,7 @@ body{
 	user-select: none;
 }
 .choice.disabled{
-	filter: invert(0.4);
+	filter: invert(0.35);
 	background: rgb(96, 96, 96, 0.5);
 	cursor: auto;
 	opacity: 0.75;
