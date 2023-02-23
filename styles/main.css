@@ -128,6 +128,8 @@ body{
 	border-radius: 10px;
 	overflow: hidden;
 	cursor: pointer;
+	position: relative;
+	z-index: 4;
 }
 #titles:before{
 	content: '';
@@ -162,13 +164,14 @@ body{
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
+	min-width: 18%;
 }
 .choice{
 	display: inline-block;
 	padding: 8px 16px;
 	margin-bottom: 8px;
 	border-radius: 16px;
-	min-width: 18%;
+	min-width: 100%;
 	cursor: pointer;
 	color: white;
 	background: rgb(96, 96, 96, 0.85);
@@ -193,6 +196,35 @@ body{
 	opacity: 0;
 }
 
+#above-titles{
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+#love-level{
+	background: rgb(96, 96, 96, 0.85);
+	border: 3px solid hotpink;
+	margin-left: 10px;
+	margin-bottom: 5px;
+	color: white;
+	text-align: center;
+	padding: 6px 30px;
+	border-radius: 16px;
+	box-shadow: 0 0 4px hotpink;
+	transition: 0.5s;
+}
+#love-level .title{
+	font-size: 16pt;
+	font-weight: bold;
+}
+#love-level .progress{
+	width: 100%;
+	accent-color: hotpink;
+}
+#love-level.hidden{
+	transform: translateY(110%);
+	opacity: 0;
+}
 
 
 @media(max-width: 500px){

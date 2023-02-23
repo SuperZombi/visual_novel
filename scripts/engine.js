@@ -162,7 +162,14 @@ function get_love_level(id){
 }
 function change_love_level(id, value){
 	love_levels[id] += value
+	document.querySelector("#love-level .progress").value = love_levels[id]
+	document.querySelector("#love-level").classList.remove("hidden")
+	setTimeout(_=>{
+		document.querySelector("#love-level").classList.add("hidden")
+	}, 3000)
 }
-function init_love_level(id, value){
+function init_love_level(name, id, value){
 	love_levels[id] = value
+	document.querySelector("#love-level .title").innerHTML = name
+	document.querySelector("#love-level .progress").value = value
 }

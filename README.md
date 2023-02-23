@@ -32,6 +32,6 @@ Sets background image to canvas.
 Adds a new person to the scene. (if this person already exists, it will be replaced by the person's image) <br/>
 Id is a simply unique identifier for the person.
 
-### init_love_level(id, value)
+### init_love_level(name, id, value)
 ### change_love_level(id, value)
 ### get_love_level(id)

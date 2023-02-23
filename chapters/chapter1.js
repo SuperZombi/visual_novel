@@ -5,7 +5,7 @@ document.dispatchEvent(new CustomEvent("chapter-loaded", {
 }));
 
 function chapter1(){
-	init_love_level("boy", 5)
+	init_love_level("Неизвестный парень", "boy", 5)
 	background('images/chapter1/1.png')
 	print("Вы стояли на перекрестке, ожидая зеленый свет своего светофора.", {
 		next: _=>{ background('images/chapter1/2.png'); print("Вдруг вы увидели парня сидящего на обочине.", {

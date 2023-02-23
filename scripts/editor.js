@@ -162,26 +162,33 @@ function print(text, args){
 
 function return_to(){}
 function get_love_level(id){}
-function love_lvl_build(name, id, value){
+function love_lvl_build(name, id, value, title=null){
 	let div = document.createElement("div")
 	div.setAttribute("onclick", "highlight_to_edit(this)")
 	div.setAttribute("before", name)
 	div.className = "simple-block love"
-	let input = document.createElement("input")
-	input.name = "id"
-	input.placeholder = "ID"
-	input.value = id
-	div.appendChild(input)
+	if (name == "init_love_level"){
+		let input = document.createElement("input")
+		input.name = "name"
+		input.placeholder = "name"
+		input.value = title
+		div.appendChild(input)
+	}
 	let input2 = document.createElement("input")
-	input2.style.width = "50px"
-	input2.name = "value"
-	input2.placeholder = "value"
-	input2.value = value
+	input2.name = "id"
+	input2.placeholder = "ID"
+	input2.value = id
 	div.appendChild(input2)
+	let input3 = document.createElement("input")
+	input3.style.width = "40px"
+	input3.name = "value"
+	input3.placeholder = "value"
+	input3.value = value
+	div.appendChild(input3)
 	current.appendChild(div)
 }
 function change_love_level(id, value){love_lvl_build("change_love_level", id, value)}
-function init_love_level(id, value){love_lvl_build("init_love_level", id, value)}
+function init_love_level(name, id, value){love_lvl_build("init_love_level", id, value, name)}
 function persona(name, id){
 	let div = document.createElement("div")
 	div.setAttribute("onclick", "highlight_to_edit(this)")
@@ -252,7 +259,10 @@ function parseTree(tree, main=true){
 			else if (div.getAttribute("before") == "persona"){
 				TEXT += `${div.getAttribute("before")}("${div.querySelector("input[name=name]").value}", "${div.querySelector("input[name=id]").value}"); `
 			}
-			else if (div.getAttribute("before") == "init_love_level" || div.getAttribute("before") == "change_love_level"){
+			else if (div.getAttribute("before") == "init_love_level"){
+				TEXT += `${div.getAttribute("before")}("${div.querySelector("input[name=name]").value}", "${div.querySelector("input[name=id]").value}", ${div.querySelector("input[name=value]").value}); `
+			}
+			else if (div.getAttribute("before") == "change_love_level"){
 				TEXT += `${div.getAttribute("before")}("${div.querySelector("input[name=id]").value}", ${div.querySelector("input[name=value]").value}); `
 			}
 			else{
@@ -395,13 +405,22 @@ function addNode(name, prepend=false){
 		}
 		else if (name == "init_love_level" || name == "change_love_level"){
 			div.classList.add("love")
-			input.name = "id"
-			input.placeholder = "ID"
-			let input2 = document.createElement("input")
-			input2.style.width = "50px"
-			input2.name = "value"
-			input2.placeholder = "value"
-			div.appendChild(input2)
+			if (name == "init_love_level"){
+				input.name = "name"
+				input.placeholder = "name"
+				let input2 = document.createElement("input")
+				input2.name = "id"
+				input2.placeholder = "ID"
+				div.appendChild(input2)
+			} else{
+				input.name = "id"
+				input.placeholder = "ID"
+			}
+			let input3 = document.createElement("input")
+			input3.style.width = "40px"
+			input3.name = "value"
+			input3.placeholder = "value"
+			div.appendChild(input3)
 		}
 	}
 

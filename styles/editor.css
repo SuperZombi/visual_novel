@@ -87,8 +87,8 @@ html, body{
 #editor .simple-block.love{
 	background: #f1c0ff;
 }
-#editor .simple-block.love input{
-	max-width: 100px;
+#editor .simple-block.love input[name='id']{
+	max-width: 80px;
 }
 #editor .simple-block.persona{
 	background: pink;
