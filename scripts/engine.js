@@ -160,16 +160,39 @@ var love_levels = {}
 function get_love_level(id){
 	return love_levels[id]
 }
+function setProgressValue(progress, value){
+	let max = progress.getAttribute("max") || 100;
+	let val = Math.max(Math.min(value, max), 0)
+	progress.setAttribute("value", val)
+	let percents = value * 100 / max;
+	progress.style.setProperty('--value', percents)
+}
+
+var hideTimeout;
 function change_love_level(id, value){
-	love_levels[id] += value
-	document.querySelector("#love-level .progress").value = love_levels[id]
-	document.querySelector("#love-level").classList.remove("hidden")
+	love_levels[id] += value;
+	let love_lvl_el = document.querySelector(".love-level")
+	let progress = love_lvl_el.querySelector(".progress")
+
+	if (hideTimeout){
+		clearTimeout(hideTimeout)
+		love_lvl_el.classList.remove("up", "down")
+	}
+
+	love_lvl_el.classList.remove("hidden")
+	value > 0 ? love_lvl_el.classList.add("up") : love_lvl_el.classList.add("down")
+	
 	setTimeout(_=>{
-		document.querySelector("#love-level").classList.add("hidden")
+		setProgressValue(progress, love_levels[id])
+	}, 500)
+
+	hideTimeout = setTimeout(_=>{
+		document.querySelector(".love-level").classList.add("hidden")
+		love_lvl_el.classList.remove("up", "down")
 	}, 3000)
 }
 function init_love_level(name, id, value){
 	love_levels[id] = value
-	document.querySelector("#love-level .title").innerHTML = name
-	document.querySelector("#love-level .progress").value = value
+	document.querySelector(".love-level .title").innerHTML = name
+	setProgressValue(document.querySelector(".love-level .progress"), value)
 }

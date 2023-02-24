@@ -201,7 +201,7 @@ body{
 	justify-content: space-between;
 	align-items: flex-end;
 }
-#love-level{
+.love-level{
 	background: rgb(96, 96, 96, 0.85);
 	border: 3px solid hotpink;
 	margin-left: 10px;
@@ -214,15 +214,37 @@ body{
 	transition: 0.5s;
 	min-width: 15%;
 }
-#love-level .title{
+.love-level .title{
 	font-size: 16pt;
 	font-weight: bold;
+	margin-bottom: 2px;
 }
-#love-level .progress{
+.love-level .progress{
+	box-sizing: border-box;
 	width: 100%;
-	accent-color: hotpink;
+	height: 8px;
+	border-radius: 25px;
+	background: #3b3b3b;
+	border: 1px solid grey;
+	position: relative;
+	overflow: hidden;
 }
-#love-level.hidden{
+.love-level .progress:before{
+	content: '';
+	width: calc(1% * var(--value));
+	height: 100%;
+	position: absolute;
+	left: 0;
+	background: hotpink;
+	transition: 1s;
+}
+.love-level.up .progress:before{
+	background: lime;
+}
+.love-level.down .progress:before{
+	background: red;
+}
+.love-level.hidden{
 	transform: translateY(110%);
 	opacity: 0;
 }
