@@ -92,10 +92,11 @@ body{
 
 #game{
 	height: 100%;
-	width: 100%;
+	width: inherit;
 	transition: 0.5s;
-	position: absolute;
+	position: fixed;
 	top: 0;
+	bottom: 0;
 }
 #canvas{
 	height: 100%;
@@ -164,7 +165,9 @@ body{
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
-	min-width: 18%;
+	min-width: 20%;
+	position: absolute;
+	right: 0;
 }
 .choice{
 	display: inline-block;
@@ -177,6 +180,7 @@ body{
 	background: rgb(96, 96, 96, 0.85);
 	transition: all 0.1s, transform 0.5s;
 	user-select: none;
+	box-sizing: border-box;
 }
 .choice.disabled{
 	filter: invert(0.35);
@@ -200,6 +204,7 @@ body{
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
+	position: relative;
 }
 .love-level{
 	background: rgb(96, 96, 96, 0.85);
@@ -253,5 +258,8 @@ body{
 @media(max-width: 500px){
 	#screen{
 		width: 100vw;
+	}
+	#canvas .persona{
+		width: 100%;
 	}
 }
