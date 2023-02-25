@@ -10,58 +10,67 @@
 	<script src="scripts/editor.js"></script>
 </head>
 <body>
-	<div id="menu">
-		<div class="dropdown but">
-			<span>File</span>
-			<div class="dropdown-content">
-				<span class="but" id="new_file">New</span>
-				<span class="but" id="open">Open</span>
-				<span class="but" id="saveAs">Save as</span>
-				<hr>
-				<span class="but" id="execute">Run</span>
+	<div id="wrapper">
+		<div id="menu">
+			<div class="dropdown but">
+				<span>File</span>
+				<div class="dropdown-content">
+					<span class="but" id="new_file">New</span>
+					<span class="but" id="open">Open</span>
+					<span class="but" id="saveAs">Save as</span>
+					<hr>
+					<span class="but" id="execute">Run</span>
+				</div>
 			</div>
-		</div>
-		<div class="dropdown but">
-			<span>Edit</span>
-			<div class="dropdown-content">
-				<span class="but" id="undo">◀️Undo</span>
-				<span class="but" id="redo">▶️Redo</span>
-				<hr>
-				<span class="but" id="delete">Delete</span>
+			<div class="dropdown but">
+				<span>Edit</span>
+				<div class="dropdown-content">
+					<span class="but" id="undo">◀️Undo</span>
+					<span class="but" id="redo">▶️Redo</span>
+					<hr>
+					<span class="but" id="delete">Delete</span>
+				</div>
 			</div>
-		</div>
-		<div class="dropdown but">
-			<span>Add</span>
-			<div class="dropdown-content">
-				<span class="but" onclick="addNode('print')">print</span>
-				<span class="but" onclick="addNode('background')">background</span>
-				<span class="but" onclick="addNode('persona')">persona</span>
-				<span class="but" onclick="addNode('choice_area')">choices area</span>
-				<span class="but" onclick="addNode('choice')">choice</span>
+			<div class="dropdown but">
+				<span>Add</span>
+				<div class="dropdown-content">
+					<span class="but" onclick="addNode('print')">print</span>
+					<span class="but" onclick="addNode('background')">background</span>
+					<span class="but" onclick="addNode('persona')">persona</span>
+					<span class="but" onclick="addNode('choice_area')">choices area</span>
+					<span class="but" onclick="addNode('choice')">choice</span>
+					<hr>
+					<span class="but" onclick="addNode('progress')">progress</span>
+					<span class="but" onclick="addNode('go_to_menu')">go_to_menu</span>
+				</div>
 			</div>
-		</div>
-		<div class="dropdown but">
-			<span>Add before</span>
-			<div class="dropdown-content">
-				<span class="but" onclick="addNode('print', true)">print</span>
-				<span class="but" onclick="addNode('background', true)">background</span>
-				<span class="but" onclick="addNode('persona', true)">persona</span>
+			<div class="dropdown but">
+				<span>Add before</span>
+				<div class="dropdown-content">
+					<span class="but" onclick="addNode('print', true)">print</span>
+					<span class="but" onclick="addNode('background', true)">background</span>
+					<span class="but" onclick="addNode('persona', true)">persona</span>
+					<hr>
+					<span class="but" onclick="addNode('progress', true)">progress</span>
+				</div>
 			</div>
-		</div>
-		<div class="dropdown but">
-			<span>Love level</span>
-			<div class="dropdown-content">
-				<span class="but" id="love-lvl" style="display: none" onclick="addNode('get_love_level')">get_love_level</span>
-				<span class="but" onclick="addNode('init_love_level')">init_love_level</span>
-				<span class="but" onclick="addNode('change_love_level')">change_love_level</span>
-				<hr>
-				<span class="but" title="Add before" onclick="addNode('init_love_level', true)">⬅️ init_love_level</span>
-				<span class="but" title="Add before" onclick="addNode('change_love_level', true)">⬅️ change_love_level</span>
+			<div class="dropdown but">
+				<span>Love level</span>
+				<div class="dropdown-content">
+					<span class="but" id="love-lvl" style="display: none" onclick="addNode('get_love_level')">get_love_level</span>
+					<span class="but" onclick="addNode('init_love_level')">init_love_level</span>
+					<span class="but" onclick="addNode('change_love_level')">change_love_level</span>
+					<hr>
+					<span class="but" title="Add before" onclick="addNode('init_love_level', true)">⬅️ init_love_level</span>
+					<span class="but" title="Add before" onclick="addNode('change_love_level', true)">⬅️ change_love_level</span>
+				</div>
 			</div>
-		</div>
-		<span class="but" style="display: inline-block;" onclick="changeTheme()">Theme</span>
-	</div>
+			<span class="but" style="display: inline-block;" onclick="changeTheme()">Theme</span>
 
-	<div id="editor"></div>
+			<input id="proj-name" placeholder="project.vnp">
+		</div>
+		
+		<div id="editor"></div>
+	</div>
 </body>
 </html>

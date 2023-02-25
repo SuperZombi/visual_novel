@@ -35,3 +35,10 @@ Id is a simply unique identifier for the person.
 ### init_love_level(name, id, value)
 ### change_love_level(id, value)
 ### get_love_level(id)
+
+<hr>
+
+### go_to_menu()
+
+### progress(value)
+Percentage of completion of this chapter. Changes the progress value in the main menu

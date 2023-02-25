@@ -1,3 +1,4 @@
+var current_chapter;
 function initChapters(){
 	document.querySelectorAll("#chapters .chapter").forEach(chap=>{
 		chap.onclick = _=>{
@@ -5,8 +6,21 @@ function initChapters(){
 			let x = document.createElement("script")
 			x.src = chap.getAttribute("url")
 			document.head.appendChild(x)
+			current_chapter = chap
 		}
 	})
+}
+
+function go_to_menu(){
+	document.querySelector("#game").classList.add("hide")
+	setTimeout(_=>{
+		document.querySelector("#menu").classList.remove("hide")
+	}, 500)
+}
+function progress(val){
+	if (current_chapter){
+		current_chapter.querySelector("progress").value = val;
+	}
 }
 
 document.addEventListener("chapter-loaded", e=>{
@@ -180,7 +194,7 @@ function change_love_level(id, value){
 	}
 
 	love_lvl_el.classList.remove("hidden")
-	value > 0 ? love_lvl_el.classList.add("up") : love_lvl_el.classList.add("down")
+	value != 0 ? (value > 0 ? love_lvl_el.classList.add("up") : love_lvl_el.classList.add("down")) : null;
 	
 	setTimeout(_=>{
 		setProgressValue(progress, love_levels[id])

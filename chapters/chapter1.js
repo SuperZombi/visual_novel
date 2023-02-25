@@ -5,12 +5,13 @@ document.dispatchEvent(new CustomEvent("chapter-loaded", {
 }));
 
 function chapter1(){
+	progress(0);
 	init_love_level("Неизвестный парень", "boy", 5)
 	background('images/chapter1/1.png')
 	print("Вы стояли на перекрестке, ожидая зеленый свет своего светофора.", {
 		next: _=>{ background('images/chapter1/2.png'); print("Вдруг вы увидели парня сидящего на обочине.", {
 			next: _=>{ print("Он был грязный и одет в рваные джинсы и потрепанную куртку.", {
-				next: _=>{ background('images/chapter1/3.png'); print("Вы решили подойти к нему.", {
+				next: _=>{ progress(25); background('images/chapter1/3.png'); print("Вы решили подойти к нему.", {
 					choices: [
 						{
 							name: "Тебе нужна помощь?", do: _=> {
@@ -31,6 +32,7 @@ function chapter1(){
 						}
 					],
 					continue: _=>{
+						progress(50);
 						background('images/chapter1/background1.png');
 						persona('images/chapter1/persona-angry.png', "boy")
 						print("Не мешай мне отдыхать.", {
@@ -42,6 +44,7 @@ function chapter1(){
 										change_love_level('boy', 1);
 										background('images/chapter1/background1.png');
 										persona('images/chapter1/persona-smile.png', "boy")
+										progress(75);
 										print("Парень посмотрел на вас и улыбнулся.", {
 											next: _=> {return_to()}
 										})
@@ -58,8 +61,11 @@ function chapter1(){
 							],
 							continue: _=>{
 								background('');
-								persona('', "boy")
-								print("Пока что это всё =)\n(Перезагрузите страницу, чтобы попробовать второй вариант диалога)")
+								persona('', "boy");
+								progress(100);
+								print("Пока что это всё =)\n(Нажмите, чтобы выйти в меню)", {
+									next: _=> {go_to_menu()}
+								})
 							}
 						})
 					}

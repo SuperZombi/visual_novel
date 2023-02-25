@@ -98,6 +98,47 @@ body{
 	top: 0;
 	bottom: 0;
 }
+.controls{
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px;
+}
+
+.exit_to_menu{
+	cursor: pointer;
+	position: relative;
+	--margin: 6px;
+	--height: 4px;
+	--color: #cdcdcd;
+	height: calc(var(--height) * 3 + var(--margin) * 2);
+}
+.exit_to_menu:hover{
+	--color: yellow;
+}
+.exit_to_menu span,
+.exit_to_menu span:before,
+.exit_to_menu span:after {
+	display: block;
+	width: 36px;
+	height: var(--height);
+	background: var(--color);
+	border-radius: 3px;
+	transition: 0.25s;
+}
+.exit_to_menu span:before, 
+.exit_to_menu span:after {
+	content: '';
+	position: absolute;
+}
+.exit_to_menu span:before{
+	top: calc(var(--height) + var(--margin));
+}
+.exit_to_menu span:after{
+	top: calc((var(--height) + var(--margin)) * 2);
+}
+
+
 #canvas{
 	height: 100%;
 	background: grey;

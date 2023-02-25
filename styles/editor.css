@@ -5,13 +5,17 @@ html, body{
 }
 
 #menu{
-	height: 30px;
+	height: fit-content;
 	padding: 5px;
-	position: fixed;
 	background: rgb(255, 255, 255, 0.85);
 	width: 100%;
-	top: 0;
 	user-select: none;
+}
+
+#proj-name{
+	float: right;
+	margin-right: 5px;
+	height: 24px;
 }
 
 .dark body{
@@ -51,12 +55,18 @@ html, body{
 	display: block;
 }
 
-
+#wrapper{
+	height: 100vh;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
 #editor{
 	text-align: center;
 	white-space: nowrap;
 	overflow: auto;
-	padding-top: 45px;
+	padding-top: 5px;
+	height: 100%;
 }
 
 #editor input{

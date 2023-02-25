@@ -55,13 +55,18 @@ function newfile(){
 	if (document.querySelector("#editor").innerHTML != ""){
 		if (confirm("Are you sure?")){
 			document.querySelector("#editor").innerHTML = ""
-			window.localStorage.removeItem("execute_from_file")
 		}
 	}
+	document.querySelector("#proj-name").value = ""
+	window.localStorage.removeItem("execute_from_file")
 }
 
 document.addEventListener("chapter-loaded", e=>{
-	e.detail.start()
+	try{
+		e.detail.start()
+	} catch (e){
+		alert(e)
+	}
 })
 
 function openfile(){
@@ -73,6 +78,12 @@ function openfile(){
 		var reader = new FileReader();
 		reader.onload = function(e) {
 			var contents = e.target.result;
+			if (contents.startsWith("//")){
+				let params = JSON.parse(contents.split('\n')[0].replace("//", ""))
+				if (params.name){
+					document.querySelector("#proj-name").value = params.name
+				}
+			}
 			displayContents(contents);
 		};
 		reader.readAsText(file);
@@ -160,7 +171,30 @@ function print(text, args){
 	}
 }
 
+function progress(val){
+	let div = document.createElement("div")
+	div.setAttribute("before", "progress")
+	div.className = "simple-block"
+	div.style.setProperty("background", "orange")
+	div.setAttribute("onclick", "highlight_to_edit(this)")
+	let input = document.createElement("input")
+	input.value = val
+	input.type = "number"
+	input.min = 0
+	input.max = 100
+	input.style.width = "40px"
+	div.appendChild(input)
+	current.appendChild(div)
+}
 function return_to(){}
+function go_to_menu(){
+	let div = document.createElement("div")
+	div.setAttribute("before", "go_to_menu")
+	div.className = "simple-block"
+	div.style.setProperty("background", "#ff4040")
+	div.setAttribute("onclick", "highlight_to_edit(this)")
+	current.appendChild(div)
+}
 function get_love_level(id){}
 function love_lvl_build(name, id, value, title=null){
 	let div = document.createElement("div")
@@ -184,6 +218,11 @@ function love_lvl_build(name, id, value, title=null){
 	input3.name = "value"
 	input3.placeholder = "value"
 	input3.value = value
+	input3.type = "number"
+	if (name == "init_love_level"){
+		input3.min = 0
+		input3.max = 10
+	}
 	div.appendChild(input3)
 	current.appendChild(div)
 }
@@ -211,10 +250,20 @@ function persona(name, id){
 
 function saveAs(){
 	const link = document.createElement("a");
-	let content = js_beautify(parseTree(document.querySelector("#editor")));
+	let content = ""
+	let file_name = "project.vnp.js"
+	let params = {}
+	if (document.querySelector("#proj-name").value.trim()){
+		params.name = document.querySelector("#proj-name").value.trim()
+		file_name = document.querySelector("#proj-name").value.trim() + ".js"
+	}
+	if (Object.keys(params).length > 0){
+		content += "// " + JSON.stringify(params) + "\n"
+	}
+	content += js_beautify(parseTree(document.querySelector("#editor")));
 	const file = new Blob([content], { type: 'text/plain' });
 	link.href = URL.createObjectURL(file);
-	link.download = "project.vnp.js";
+	link.download = file_name;
 	link.click();
 	URL.revokeObjectURL(link.href);
 }
@@ -266,7 +315,15 @@ function parseTree(tree, main=true){
 				TEXT += `${div.getAttribute("before")}("${div.querySelector("input[name=id]").value}", ${div.querySelector("input[name=value]").value}); `
 			}
 			else{
-				TEXT += `${div.getAttribute("before")}("${div.querySelector("input").value}"); `
+				if (div.querySelector("input")){
+					if (isNaN(div.querySelector("input").value) || div.querySelector("input").value.trim() == ""){
+						TEXT += `${div.getAttribute("before")}("${div.querySelector("input").value}"); `
+					} else{
+						TEXT += `${div.getAttribute("before")}(${div.querySelector("input").value}); `
+					}
+				} else{
+					TEXT += `${div.getAttribute("before")}(); `
+				}
 			}
 			
 		}
@@ -386,41 +443,60 @@ function addNode(name, prepend=false){
 		div.setAttribute("before", name)
 		div.className = "simple-block"
 		div.setAttribute("onclick", "highlight_to_edit(this)")
-		let input = document.createElement("input")
-		div.appendChild(input)
 
-		if (name == "background"){
-			div.classList.add("light")
-			input.placeholder = "image"
-		}
-		else if (name == "persona"){
-			div.classList.add("persona")
-			input.name = "name"
-			input.placeholder = "image"
-			let input2 = document.createElement("input")
-			input2.style.width = "50px"
-			input2.name = "id"
-			input2.placeholder = "ID"
-			div.appendChild(input2)
-		}
-		else if (name == "init_love_level" || name == "change_love_level"){
-			div.classList.add("love")
-			if (name == "init_love_level"){
+		if (name == "go_to_menu"){
+			div.style.setProperty("background", "#ff4040")
+		} else{
+
+			let input = document.createElement("input")
+			div.appendChild(input)
+
+			if (name == "background"){
+				div.classList.add("light")
+				input.placeholder = "image"
+			}
+			else if (name == "progress"){
+				div.style.setProperty("background", "orange")
+				input.type = "number"
+				input.value = 0
+				input.min = 0
+				input.max = 100
+				input.style.width = "40px"
+			}
+			else if (name == "persona"){
+				div.classList.add("persona")
 				input.name = "name"
-				input.placeholder = "name"
+				input.placeholder = "image"
 				let input2 = document.createElement("input")
+				input2.style.width = "50px"
 				input2.name = "id"
 				input2.placeholder = "ID"
 				div.appendChild(input2)
-			} else{
-				input.name = "id"
-				input.placeholder = "ID"
 			}
-			let input3 = document.createElement("input")
-			input3.style.width = "40px"
-			input3.name = "value"
-			input3.placeholder = "value"
-			div.appendChild(input3)
+			else if (name == "init_love_level" || name == "change_love_level"){
+				div.classList.add("love")
+				if (name == "init_love_level"){
+					input.name = "name"
+					input.placeholder = "name"
+					let input2 = document.createElement("input")
+					input2.name = "id"
+					input2.placeholder = "ID"
+					div.appendChild(input2)
+				} else{
+					input.name = "id"
+					input.placeholder = "ID"
+				}
+				let input3 = document.createElement("input")
+				input3.style.width = "40px"
+				input3.name = "value"
+				input3.placeholder = "value"
+				input3.type = "number"
+				if (name == "init_love_level"){
+					input3.min = 0
+					input3.max = 10
+				}
+				div.appendChild(input3)
+			}
 		}
 	}
 
