@@ -194,7 +194,8 @@ body:fullscreen #screen{
 #titles{
 	font-size: 16pt;
 	color: white;
-	background: rgb(96, 96, 96, 0.85);
+	background: rgb(96, 96, 96, 0.5);
+	backdrop-filter: blur(2px);
 	height: 105px;
 	border-radius: 10px;
 	overflow: hidden;
