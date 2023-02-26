@@ -41,10 +41,13 @@ body:fullscreen #screen{
 	opacity: 0;
 	visibility: hidden;
 }
-#preloader{
+
+#menu-preloader.preloader{
 	position: fixed;
 	top: 50%; left: 50%;
 	transform: translate(-50%, -50%);
+}
+.preloader{
 	z-index: 10;
 	transition: 0.5s;
 }
@@ -58,12 +61,24 @@ body:fullscreen #screen{
 	margin: 8px;
 	border-radius: 50%;
 	border: 6px solid;
-	border-color: rgb(255, 255, 255, 0.5) transparent rgb(255, 255, 255, 0.5) transparent;
+	border-color: #00B0FF transparent #00B0FF transparent;
 	animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+#game-preloader.preloader{
+	position: absolute;
+	bottom: 115px; right: 10px;
+}
+#game-preloader.preloader .lds-dual-ring {
+	width: 50px; height: 50px;
+}
+#game-preloader.preloader .lds-dual-ring:after {
+	width: 25px; height: 25px;
+	border-color: rgb(255, 255, 255, 0.5) transparent rgb(255, 255, 255, 0.5) transparent;
 }
 
 #menu{
@@ -399,5 +414,8 @@ body:fullscreen #screen{
 	}
 	#canvas .persona{
 		height: calc(100% - 95px);
+	}
+	#game-preloader.preloader{
+		bottom: 95px;
 	}
 }

@@ -14,6 +14,7 @@ function main(){
 		if (event.keyCode == 70){fullscreen()}
 	})
 
+	document.querySelector("#menu-preloader").classList.add("hide");
 	initChapters()
 
 	let search = Object.fromEntries(new URLSearchParams(window.location.search))
@@ -35,7 +36,7 @@ var current_chapter;
 function initChapters(){
 	document.querySelectorAll("#chapters .chapter").forEach(chap=>{
 		chap.onclick = _=>{
-			document.querySelector("#preloader").classList.remove("hide")
+			document.querySelector("#menu-preloader").classList.remove("hide")
 			document.querySelector("#menu").classList.add("hide")
 			fetch(chap.getAttribute("url")).then(async req=>{
 				if (req.status == 200){
@@ -56,7 +57,7 @@ function startChapter(text){
 	document.querySelector("#choices").innerHTML = ""
 	var F = new Function(text);
 	setTimeout(_=>{
-		document.querySelector("#preloader").classList.add("hide")
+		document.querySelector("#menu-preloader").classList.add("hide")
 		document.querySelector("#game").classList.remove("hide")
 		F();
 	}, 1000)
@@ -217,7 +218,7 @@ function addChoices(array){
 			}		
 		}
 		parrent.appendChild(div)
-		setTimeout(_=>{div.classList.remove("hide")}, 0)
+		setTimeout(_=>{div.classList.remove("hide")}, 10)
 	})
 }
 
@@ -227,14 +228,14 @@ async function load_image(src){
 	if (image_request){
 		image_request.abort();
 	}
-	document.querySelector("#preloader").classList.remove("hide")
+	document.querySelector("#game-preloader").classList.remove("hide")
 	return new Promise(function (resolve, reject) {
 		image_request = new XMLHttpRequest();
 		image_request.open('GET', src);
 		image_request.responseType = 'blob';
 		image_request.onload = function () {
 			if (image_request.status === 200) {
-				document.querySelector("#preloader").classList.add("hide")
+				document.querySelector("#game-preloader").classList.add("hide")
 				const imageObjectURL = URL.createObjectURL(image_request.response);
 				image_request = null;
 				resolve(imageObjectURL);
