@@ -404,9 +404,15 @@ function addNode(name, prepend=false){
 		subdiv.className = "choice"
 		let subdiv2 = document.createElement("div")
 		subdiv2.className = "choice-title"
-		let input = document.createElement("input")
 		subdiv2.setAttribute("onclick", "highlight_to_edit(this)")
+		let input = document.createElement("input")
+		input.name = "name"
+		input.placeholder = "name"
+		let input2 = document.createElement("input")
+		input2.name = "condition"
+		input2.placeholder = "condition"
 		subdiv2.appendChild(input)
+		subdiv2.appendChild(input2)
 		subdiv.appendChild(subdiv2)
 		let tail = document.createElement("div")
 		tail.className = "choice-tail"
