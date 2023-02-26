@@ -35,6 +35,7 @@ var current_chapter;
 function initChapters(){
 	document.querySelectorAll("#chapters .chapter").forEach(chap=>{
 		chap.onclick = _=>{
+			document.querySelector("#preloader").classList.remove("hide")
 			document.querySelector("#menu").classList.add("hide")
 			fetch(chap.getAttribute("url")).then(async req=>{
 				if (req.status == 200){
@@ -55,6 +56,7 @@ function startChapter(text){
 	document.querySelector("#choices").innerHTML = ""
 	var F = new Function(text);
 	setTimeout(_=>{
+		document.querySelector("#preloader").classList.add("hide")
 		document.querySelector("#game").classList.remove("hide")
 		F();
 	}, 1000)
@@ -124,6 +126,7 @@ function print(text, args=null){
 		else if (args.next){
 			setTimeout(_=>{
 				skiper = _=>{
+					if (image_request){return}
 					args.next()
 				}
 			}, 100)
@@ -204,6 +207,7 @@ function addChoices(array){
 		}
 		if (canClick){
 			div.onclick = _=>{
+				if (image_request){return}
 				clearChoices()
 				e.do()
 			}		
@@ -214,10 +218,25 @@ function addChoices(array){
 }
 
 
+var image_request;
 async function load_image(src){
-	return await fetch(src).then(res=>res.blob()).then(imageBlob=>{
-		const imageObjectURL = URL.createObjectURL(imageBlob);
-		return imageObjectURL;
+	if (image_request){
+		image_request.abort();
+	}
+	document.querySelector("#preloader").classList.remove("hide")
+	return new Promise(function (resolve, reject) {
+		image_request = new XMLHttpRequest();
+		image_request.open('GET', src);
+		image_request.responseType = 'blob';
+		image_request.onload = function () {
+			if (image_request.status === 200) {
+				document.querySelector("#preloader").classList.add("hide")
+				const imageObjectURL = URL.createObjectURL(image_request.response);
+				image_request = null;
+				resolve(imageObjectURL);
+			}
+		}
+		image_request.send();
 	})
 }
 async function background(image){
