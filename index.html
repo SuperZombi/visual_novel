@@ -4,45 +4,49 @@
 	<title>Visual Novel</title>
 	<meta name='viewport' content='width=device-width'>
 	<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+	<link rel='stylesheet' href='https://use.fontawesome.com/releases/v6.2.1/css/all.css'>
 
 	<link rel="stylesheet" href="styles/main.css">
 	<script src="scripts/engine.js"></script>
-	<script src="scripts/main.js"></script>
 </head>
 <body>
-	<div id="screen">
-		<div id="menu">
-			<h1 style="text-align: center; margin: 0; padding: 20px;">Visual Novel</h1>
-			<div id="chapters">
-				<div class="chapter" url="chapters/chapter1.js">
-					<div style="background-image: url('images/chapter1/1preview.jpg')" class="preview"></div>
-					<div class="title">Глава 1</div>
-					<progress min="0" max="100" value="0" class="progress"></progress>
-				</div>
-			</div>
-		</div>
-
-		<div id="game" class="hide">
+	<div id="fullscreener">
+		<div id="screen">
 			<div class="controls">
-				<div class="exit_to_menu" onclick="go_to_menu()" title="Меню"><span></span></div>
+				<i id="fullscreen" class="fa-solid fa-expand" title="Fullscreen" style="float:right;" onclick="fullscreen()"></i>
 			</div>
-			
-			<div id="canvas"></div>
-
-			<div id="titles-area">
-				<div id="above-titles">
-					<div class="love-level hidden">
-						<div class="title"></div>
-						<div class="progress" max="10"></div>
+			<div id="menu">
+				<h1 style="text-align: center; margin: 0; padding: 20px; user-select: none;">Visual Novel</h1>
+				<div id="chapters">
+					<div class="chapter" url="chapters/test/chapter1.js">
+						<div style="background-image: url('chapters/test/images/1preview.jpg')" class="preview"></div>
+						<div class="title">Предпросмотр движка</div>
+						<progress min="0" max="100" value="0" class="progress"></progress>
 					</div>
-					<div id="choices"></div>
 				</div>
-				<div id="titles">
-					<div id="titles-text"></div>
+			</div>
+
+			<div id="game" class="hide">
+				<div class="controls">
+					<div class="exit_to_menu" onclick="go_to_menu()" title="Меню"><span></span></div>
+				</div>
+				
+				<div id="canvas"></div>
+
+				<div id="titles-area">
+					<div id="above-titles">
+						<div class="love-level hidden">
+							<div class="title"></div>
+							<div class="progress" max="10"></div>
+						</div>
+						<div id="choices"></div>
+					</div>
+					<div id="titles">
+						<div id="titles-text"></div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>

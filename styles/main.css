@@ -103,18 +103,27 @@ body{
 	top: 0;
 	left: 0;
 	padding: 10px;
+	--color: #cdcdcd;
+	font-size: 24pt;
+	box-sizing: border-box;
+	width: 100%;
+}
+.controls > *{
+	cursor: pointer;
+	transition: 0.25s;
+	color: var(--color);
+	z-index: 10;
+	position: relative;
+	display: inline-block;
+}
+.controls > *:hover{
+	--color: yellow;
 }
 
 .exit_to_menu{
-	cursor: pointer;
-	position: relative;
 	--margin: 6px;
 	--height: 4px;
-	--color: #cdcdcd;
 	height: calc(var(--height) * 3 + var(--margin) * 2);
-}
-.exit_to_menu:hover{
-	--color: yellow;
 }
 .exit_to_menu span,
 .exit_to_menu span:before,
@@ -141,7 +150,7 @@ body{
 
 #canvas{
 	height: 100%;
-	background: grey;
+	background: black;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
@@ -295,10 +304,23 @@ body{
 	opacity: 0;
 }
 
+@keyframes first-time{
+	from{
+		transform: rotate(0deg);
+	} to{
+		transform: rotate(90deg);
+	}
+}
 
 @media(max-width: 500px){
+	#fullscreener{
+		transform: rotate(90deg);
+		transform-origin: center;
+		animation: first-time 0.5s;
+	}
 	#screen{
-		width: 100vw;
+		width: 100vh;
+		height: 100vw;
 	}
 	#canvas .persona{
 		width: 100%;

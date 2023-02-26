@@ -1,14 +1,71 @@
+window.addEventListener("load", main)
+function main(){
+	document.querySelector("#titles").onclick = _=>{
+		if (skiper){skiper()}
+	}
+	document.querySelector("#screen").addEventListener("dblclick", event=>{
+		let path = event.path || (event.composedPath && event.composedPath());
+		if(!path.includes(document.querySelector("#titles"))){
+			fullscreen()
+		}
+	})
+	window.addEventListener("keydown", event=>{
+		if (event.keyCode == 32 && skiper){skiper()}
+		if (event.keyCode == 70){fullscreen()}
+	})
+
+	initChapters()
+
+	let search = Object.fromEntries(new URLSearchParams(window.location.search))
+	if (search.from_file){
+		document.querySelector("#menu").classList.add("hide")
+		try{
+			let content = window.localStorage.getItem("execute_from_file")
+			startChapter(content)
+		} catch (e){
+			setTimeout(_=>{
+				alert(e)
+			}, 100)
+		}
+	}
+}
+
+
 var current_chapter;
 function initChapters(){
 	document.querySelectorAll("#chapters .chapter").forEach(chap=>{
 		chap.onclick = _=>{
 			document.querySelector("#menu").classList.add("hide")
-			let x = document.createElement("script")
-			x.src = chap.getAttribute("url")
-			document.head.appendChild(x)
-			current_chapter = chap
+			fetch(chap.getAttribute("url")).then(req=>{
+				if (req.status == 200){return req.text()}
+			}).then(data=>{
+				current_chapter = chap
+				startChapter(data)
+			})
 		}
 	})
+}
+function startChapter(text){
+	var F = new Function(text);
+	setTimeout(_=>{
+		document.querySelector("#game").classList.remove("hide")
+		F();
+	}, 1000)
+}
+document.addEventListener("chapter-loaded", e=>{
+	e.detail.start()
+})
+
+function fullscreen(){
+	if (document.fullscreenElement){
+		document.querySelector("#fullscreen").classList.remove("fa-compress")
+		document.querySelector("#fullscreen").classList.add("fa-expand")
+		document.exitFullscreen()
+	} else{
+		document.body.requestFullscreen()
+		document.querySelector("#fullscreen").classList.remove("fa-expand")
+		document.querySelector("#fullscreen").classList.add("fa-compress")
+	}
 }
 
 function go_to_menu(){
@@ -23,18 +80,12 @@ function progress(val){
 	}
 }
 
-document.addEventListener("chapter-loaded", e=>{
-	setTimeout(_=>{
-		document.querySelector("#game").classList.remove("hide")
-		e.detail.start()
-	}, 1000)
-})
-
 function clear(){
 	document.querySelector("#titles-text").innerHTML = ""
 }
 var skiper;
 var _return_to = [];
+
 
 function return_to(){
 	if (_return_to.length > 0){
@@ -157,7 +208,11 @@ function addChoices(array){
 
 
 function background(image){
-	document.querySelector("#canvas").style.backgroundImage = `url('${image}')`
+	if (image){
+		document.querySelector("#canvas").style.backgroundImage = `url('${image}')`
+	} else{
+		document.querySelector("#canvas").style.backgroundImage = ''
+	}
 }
 function persona(image, id){
 	let div = document.querySelector(`#canvas .persona[persona-id='${id}']`)
@@ -167,7 +222,11 @@ function persona(image, id){
 		div.setAttribute("persona-id", id)
 		document.querySelector("#canvas").appendChild(div)
 	}
-	div.style.backgroundImage = `url('${image}')`
+	if (image){
+		div.style.backgroundImage = `url('${image}')`
+	} else{
+		div.style.backgroundImage = ''
+	}
 }
 
 var love_levels = {}
