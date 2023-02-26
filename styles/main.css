@@ -160,7 +160,7 @@ body:fullscreen #screen{
 }
 
 #canvas .persona{
-	width: 60%;
+	width: 100%;
 	height: calc(100% - 115px);
 	background-repeat: no-repeat;
 	background-position: bottom;
@@ -320,8 +320,5 @@ body:fullscreen #screen{
 	}
 	body:fullscreen #screen{
 		width: 100vh;
-	}
-	#canvas .persona{
-		width: 100%;
 	}
 }

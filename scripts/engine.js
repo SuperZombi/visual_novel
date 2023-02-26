@@ -46,6 +46,9 @@ function initChapters(){
 	})
 }
 function startChapter(text){
+	document.querySelector("#canvas").style = ""
+	document.querySelector("#canvas").innerHTML = ""
+	document.querySelector("#choices").innerHTML = ""
 	var F = new Function(text);
 	setTimeout(_=>{
 		document.querySelector("#game").classList.remove("hide")
