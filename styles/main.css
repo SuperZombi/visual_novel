@@ -157,6 +157,10 @@ body:fullscreen #screen{
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
+	box-shadow:
+	 inset 0 0 100px #000,
+	 inset 0 0 100px #000,
+	 inset 0 0 100px #000;
 }
 
 #canvas .persona{
