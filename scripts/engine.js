@@ -121,7 +121,11 @@ function print(text, args=null){
 			})
 		}
 		if (args.choices){
-			addChoices(args.choices)
+			if (image_request){
+				image_request.addEventListener("load", _=>{
+					addChoices(args.choices)
+				})
+			} else { addChoices(args.choices) }
 		}
 		else if (args.next){
 			setTimeout(_=>{
