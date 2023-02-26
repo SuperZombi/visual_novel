@@ -307,13 +307,6 @@ body:fullscreen #screen{
 	opacity: 0;
 }
 
-@keyframes first-time{
-	from{
-		transform: rotate(0deg);
-	} to{
-		transform: rotate(90deg);
-	}
-}
 
 @media(max-width: 500px){
 	#fullscreener{
