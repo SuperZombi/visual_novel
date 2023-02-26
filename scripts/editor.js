@@ -75,6 +75,7 @@ function openfile(){
 	input.accept = ".vnp.js,.js"
 	input.onchange = e=>{ 
 		var file = e.target.files[0];
+		document.querySelector("#proj-name").value = file.name.split(".js")[0]
 		var reader = new FileReader();
 		reader.onload = function(e) {
 			var contents = e.target.result;

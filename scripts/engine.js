@@ -36,11 +36,15 @@ function initChapters(){
 	document.querySelectorAll("#chapters .chapter").forEach(chap=>{
 		chap.onclick = _=>{
 			document.querySelector("#menu").classList.add("hide")
-			fetch(chap.getAttribute("url")).then(req=>{
-				if (req.status == 200){return req.text()}
-			}).then(data=>{
-				current_chapter = chap
-				startChapter(data)
+			fetch(chap.getAttribute("url")).then(async req=>{
+				if (req.status == 200){
+					let data = await req.text()
+					current_chapter = chap
+					startChapter(data)
+				} else{
+					setTimeout(_=>{alert("Error")}, 100)
+					go_to_menu()
+				}
 			})
 		}
 	})
@@ -132,14 +136,14 @@ function print(text, args=null){
 			input.innerHTML = input.innerHTML.slice(0, -1)
 		}
 
-		if (array.at(0) == "\n"){
-			input.innerHTML += "<br>"
-		} else{
-			input.innerHTML += array.at(0)
-		}
-		input.innerHTML += args.end
+		if (array.length >= 1){
+			if (array.at(0) == "\n"){
+				input.innerHTML += "<br>"
+			} else{
+				input.innerHTML += array.at(0)
+			}
+			input.innerHTML += args.end
 
-		if (array.length > 1){
 			setTimeout(_=>{
 				_print(array.slice(1))
 			}, _speed)
@@ -211,10 +215,20 @@ function addChoices(array){
 
 
 function background(image){
+	let canvas = document.querySelector("#canvas")
 	if (image){
-		document.querySelector("#canvas").style.backgroundImage = `url('${image}')`
+		if (!canvas.style.backgroundImage){
+			canvas.style.setProperty("transition", "0s")
+			canvas.style.setProperty("opacity", 0)
+			setTimeout(_=>{
+				canvas.style.removeProperty("transition")
+				canvas.style.removeProperty("opacity")
+			}, 0)
+		}
+		canvas.style.backgroundImage = `url('${image}')`
+
 	} else{
-		document.querySelector("#canvas").style.backgroundImage = ''
+		canvas.style.setProperty("opacity", 0)
 	}
 }
 function persona(image, id){
