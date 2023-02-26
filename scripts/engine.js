@@ -1,3 +1,6 @@
+var GLOBAL_LANG = "ru";
+var USER_LANG = "ru";
+
 window.addEventListener("load", main)
 function main(){
 	document.querySelector("#titles").onclick = _=>{
@@ -28,6 +31,11 @@ function main(){
 			}, 100)
 		}
 	}
+	else if (search.lang){
+		USER_LANG = search.lang
+	}
+
+	localizeUI()
 }
 
 
@@ -35,6 +43,7 @@ var current_chapter;
 function initChapters(){
 	document.querySelectorAll("#chapters .chapter").forEach(chap=>{
 		chap.onclick = _=>{
+			document.querySelector("#preloader").classList.add("centered")
 			document.querySelector("#preloader").classList.remove("hide")
 			document.querySelector("#menu").classList.add("hide")
 			fetch(chap.getAttribute("url")).then(async req=>{
@@ -57,6 +66,7 @@ function startChapter(text){
 	var F = new Function(text);
 	setTimeout(_=>{
 		document.querySelector("#preloader").classList.add("hide")
+		document.querySelector("#preloader").classList.remove("centered")
 		document.querySelector("#game").classList.remove("hide")
 		F();
 	}, 1000)
@@ -103,6 +113,12 @@ function return_to(){
 	}
 }
 function print(text, args=null){
+	if (text){
+		if (GLOBAL_LANG !== USER_LANG){
+			text = translate(text, USER_LANG)
+		}	
+	}
+
 	clear()
 	let default_args = {
 		speed: 50,
@@ -197,6 +213,9 @@ function addChoices(array){
 	array.forEach(e=>{
 		let div = document.createElement("div")
 		div.classList.add("choice", "hide")
+		if (GLOBAL_LANG !== USER_LANG){
+			e.name = translate(e.name, USER_LANG)
+		}
 		div.innerHTML = e.name
 		
 		let canClick = true;
@@ -313,4 +332,29 @@ function init_love_level(name, id, value){
 	love_levels[id] = value
 	document.querySelector(".love-level .title").innerHTML = name
 	setProgressValue(document.querySelector(".love-level .progress"), value)
+}
+
+
+function translate(text, target) {
+	let sl = "auto"
+	let tl = target
+	let encodedText = encodeURI(text)
+	let translateUrl = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sl + "&tl=" + tl + "&dt=t&q=" + encodedText;
+	let xhr = new XMLHttpRequest();
+	xhr.open("GET", translateUrl, false);
+	xhr.send();
+	if (xhr.status == 200){
+		let result = JSON.parse(xhr.response)[0];
+		return result.map(e=>{return e[0]}).join("")
+	}
+	return text
+}
+function localizeUI(){
+	if (GLOBAL_LANG !== USER_LANG){
+		document.querySelectorAll("#chapters .chapter").forEach(chap=>{
+			let el = chap.querySelector(".title")
+			el.innerHTML = translate(el.innerHTML, USER_LANG)
+		})
+		document.querySelector("#notice-for-rotate-screen").innerHTML = translate(document.querySelector("#notice-for-rotate-screen").innerHTML, USER_LANG)
+	}
 }
