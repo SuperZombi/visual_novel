@@ -54,11 +54,11 @@ body:fullscreen #screen{
 }
 .lds-dual-ring:after {
 	content: ""; display: block;
-	width: 64px; height: 64px;
+	width: 50px; height: 50px;
 	margin: 8px;
 	border-radius: 50%;
-	border: 6px solid #00B0FF;
-	border-color: #00B0FF transparent #00B0FF transparent;
+	border: 6px solid;
+	border-color: rgb(255, 255, 255, 0.5) transparent rgb(255, 255, 255, 0.5) transparent;
 	animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
