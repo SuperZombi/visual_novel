@@ -16,6 +16,25 @@ body:fullscreen #screen{
 	position: relative;
 	overflow: hidden;
 	margin: auto;
+	color: white;
+}
+
+#popup{
+	height: 40vh;
+	width: 55vw;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(-90deg);
+	background: rgb(0, 0, 0, 0.5);
+	text-align: center;
+	border-radius: 24px;
+	padding: 20px;
+	z-index: 5;
+	display: none;
+}
+#popup svg{
+	height: 30%;
 }
 
 .hide{
@@ -164,6 +183,7 @@ body:fullscreen #screen{
 
 
 #canvas{
+	display: flex;
 	height: 100%;
 	background: black;
 	background-repeat: no-repeat;
@@ -338,6 +358,9 @@ body:fullscreen #screen{
 	}
 	body:fullscreen #screen{
 		width: 100vh;
+	}
+	#popup{
+		display: block;
 	}
 }
 

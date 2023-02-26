@@ -214,7 +214,13 @@ function addChoices(array){
 }
 
 
-function background(image){
+async function load_image(src){
+	return await fetch(src).then(res=>res.blob()).then(imageBlob=>{
+		const imageObjectURL = URL.createObjectURL(imageBlob);
+		return imageObjectURL;
+	})
+}
+async function background(image){
 	let canvas = document.querySelector("#canvas")
 	if (image){
 		if (!canvas.style.backgroundImage){
@@ -222,11 +228,10 @@ function background(image){
 			canvas.style.setProperty("opacity", 0)
 			setTimeout(_=>{
 				canvas.style.removeProperty("transition")
-				canvas.style.removeProperty("opacity")
 			}, 0)
 		}
-		canvas.style.backgroundImage = `url('${image}')`
-
+		canvas.style.backgroundImage = `url('${await load_image(image)}')`
+		canvas.style.removeProperty("opacity")
 	} else{
 		canvas.style.setProperty("opacity", 0)
 	}
